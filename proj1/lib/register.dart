@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'register.dart';
+import 'package:proj1/main.dart';
 
 void main() {
   runApp(MyApp());
@@ -9,18 +9,22 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: LoginPage(),
+      // initialRoute: '/',
+      // routes: {
+      //   '/': (context) => register(),
+      //   '/register': (context) => RegisterPage(),
+      // },
     );
   }
 }
 
-class LoginPage extends StatefulWidget {
+class register extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  bool? isChecked = false;
+class _LoginPageState extends State<register> {
+  bool isChecked = false;
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
@@ -30,19 +34,20 @@ class _LoginPageState extends State<LoginPage> {
       body: Center(
         child: SingleChildScrollView(
           child: Container(
-            width: MediaQuery.of(context).size.width * 0.8,
+            
             padding: EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  'Welcome back',
-                  style: TextStyle(fontFamily: 'AutofillHints.impp'),
+                  'Register Here!',
+                  style: TextStyle(fontFamily:AutofillHints.birthday,fontWeight: FontWeight.w500, color: Colors.green),
                   textAlign: TextAlign.left,
+                  
                 ),
                 SizedBox(height: 16),
                 Text(
-                  'Login to your account',
+                  'Enter your details',
                   style: TextStyle(
                     fontFamily: 'AutofillHints.birthdayDay',
                     fontWeight: FontWeight.bold,
@@ -69,48 +74,23 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
+                SizedBox(height: 16,),
+                 TextFormField(
+                  controller: _passwordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    hintText: 'Re-enter your password',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                ),
                 SizedBox(height: 16.0),
                 Row(
-                  children: <Widget>[
-                    Checkbox(
-                      value: isChecked,
-                      onChanged: (newBool) {
-                        setState(() {
-                          isChecked = newBool;
-                        });
-                      },
-                    ),
-                    Text('Remember me'),
-                    Spacer(),
-                    TextButton(
-                      onPressed: () {
-                        // Forgot password logic
-                      },
-                      child: Text('Forgot Password?'),
-                    ),
-                  ],
+                  
                 ),
                 SizedBox(height: 16.0),
                 ElevatedButton(
-                  onPressed: () {
-                    // Login logic
-                  
-                    String email = _emailController.text;
-                    String password = _passwordController.text;
-                    print('Email: $email, Password: $password, Remember Me: $isChecked');
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => register(),
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(primary: Colors.green),
-                  child: Container( width: double.infinity,
-                  child: Text('create account',textAlign: TextAlign.center,),),
-                ),
-                SizedBox(height: 16.0),
-                ElevatedButton.icon(
                   onPressed: () {
                     // Navigate to home page
                     Navigator.push(
@@ -121,14 +101,28 @@ class _LoginPageState extends State<LoginPage> {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.black,
+                    primary: Colors.green,
                     padding: EdgeInsets.symmetric(vertical: 16.0),
-                    fixedSize: Size(
-                      MediaQuery.of(context).size.width * 2,1, // Null height maintains the button's intrinsic height
-                    ),
                   ),
-                  icon: Icon(Icons.login),
-                  label: Text('Login now'),
+                  child: Container( width: double.infinity,
+                  child: Text('Register',textAlign: TextAlign.center,),)
+                ),
+                SizedBox(height: 16.0),
+                ElevatedButton(
+                  onPressed: () {
+                     Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LoginPage(),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.black,
+                    padding: EdgeInsets.symmetric(vertical: 16.0),
+                  ),
+                  child: Container( width: double.infinity,
+                  child: Text('Back',textAlign: TextAlign.center,),),
                 ),
               ],
             ),
@@ -145,3 +139,4 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 }
+
