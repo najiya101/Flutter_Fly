@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'register.dart';
+import 'home.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
+  await Hive.openBox('DBbox');
   runApp(MyApp());
 }
 
@@ -23,6 +28,7 @@ class _LoginPageState extends State<LoginPage> {
   bool? isChecked = false;
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  final DBbox = Hive.box('DBbox');
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +100,6 @@ class _LoginPageState extends State<LoginPage> {
                 ElevatedButton(
                   onPressed: () {
                     // Login logic
-                  
                     String email = _emailController.text;
                     String password = _passwordController.text;
                     print('Email: $email, Password: $password, Remember Me: $isChecked');
@@ -105,26 +110,45 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     );
                   },
-                  style: ElevatedButton.styleFrom(primary: Colors.green),
-                  child: Container( width: double.infinity,
-                  child: Text('create account',textAlign: TextAlign.center,),),
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                  child: Container(
+                    width: double.infinity,
+                    child: Text(
+                      'create account',
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                 ),
                 SizedBox(height: 16.0),
                 ElevatedButton.icon(
                   onPressed: () {
-                    // Navigate to home page
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => LoginPage(),
-                      ),
-                    );
+                    String em = _emailController.text;
+                    String ps = _passwordController.text;
+
+                    var data = DBbox.get(em);
+                    if (data != null) {
+                      
+                        if (data[1] != ps) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("password error")));
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => homepage(),
+                            ),
+                          );
+                        }
+                      
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("invalid user")));
+                    }
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.black,
+                    backgroundColor: Colors.black,
                     padding: EdgeInsets.symmetric(vertical: 16.0),
                     fixedSize: Size(
-                      MediaQuery.of(context).size.width * 2,1, // Null height maintains the button's intrinsic height
+                      MediaQuery.of(context).size.width * 2,
+                      1,
                     ),
                   ),
                   icon: Icon(Icons.login),

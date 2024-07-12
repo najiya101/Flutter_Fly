@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:proj1/home.dart';
 import 'package:proj1/main.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -27,9 +30,15 @@ class _LoginPageState extends State<register> {
   bool isChecked = false;
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  TextEditingController _passwordController2 =TextEditingController();
+  final DBbox=Hive.box('DBbox');
+  void write(var email,var pass){
+    DBbox.put(email, [email,pass]);
+  }
 
   @override
   Widget build(BuildContext context) {
+    String? e,p;
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
@@ -76,7 +85,7 @@ class _LoginPageState extends State<register> {
                 ),
                 SizedBox(height: 16,),
                  TextFormField(
-                  controller: _passwordController,
+                  controller: _passwordController2,
                   obscureText: true,
                   decoration: InputDecoration(
                     hintText: 'Re-enter your password',
@@ -92,16 +101,21 @@ class _LoginPageState extends State<register> {
                 SizedBox(height: 16.0),
                 ElevatedButton(
                   onPressed: () {
+                    setState(() {
+                      e = _emailController.text.toString();
+                      p = _passwordController.text.toString();
+                    });
+                    write(e, p);
                     // Navigate to home page
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => LoginPage(),
+                        builder: (context) => homepage(),
                       ),
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.green,
+                    backgroundColor: Colors.green,
                     padding: EdgeInsets.symmetric(vertical: 16.0),
                   ),
                   child: Container( width: double.infinity,
@@ -113,7 +127,7 @@ class _LoginPageState extends State<register> {
                      Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => LoginPage(),
+                        builder: (context) => LoginPage()
                       ),
                     );
                   },
