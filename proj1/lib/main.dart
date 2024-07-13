@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:proj1/phone.dart';
 import 'register.dart';
-import 'home.dart';
+
 
 void main() async {
   await Hive.initFlutter();
@@ -134,7 +135,7 @@ class _LoginPageState extends State<LoginPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => homepage(),
+                              builder: (context) => Callpage(),
                             ),
                           );
                         }
