@@ -1,8 +1,12 @@
+//import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:proj1/phone.dart';
+//import 'package:proj1/profile.dar';
+//import 'package:proj1/profile.dart';
 import 'register.dart';
+import 'homepage.dart';
 
 
 void main() async {
@@ -27,6 +31,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool? isChecked = false;
+  bool passvisible = false;
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   final DBbox = Hive.box('DBbox');
@@ -34,6 +39,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
         child: SingleChildScrollView(
           child: Container(
@@ -41,11 +47,19 @@ class _LoginPageState extends State<LoginPage> {
             padding: EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
+              children: <Widget>[Center(
+                  child: Image.asset(
+                    '/home/najiya/proj1/images/WhatsApp Image 2024-07-21 at 11.09.20 AM.jpeg', 
+                    width: 200, 
+                    height: 200, 
+                  ),
+                ),
+                SizedBox(height: 16.0),
                 Text(
                   'Welcome back',
-                  style: TextStyle(fontFamily: 'AutofillHints.impp'),
+                  style: TextStyle(fontFamily: 'AutofillHints.impp',color: Color.fromARGB(255, 174, 96, 238),fontSize: 24),
                   textAlign: TextAlign.left,
+                  
                 ),
                 SizedBox(height: 16),
                 Text(
@@ -63,16 +77,28 @@ class _LoginPageState extends State<LoginPage> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(4)),
                     ),
+                     prefixIcon: Icon(Icons.email),
                   ),
                 ),
                 SizedBox(height: 16.0),
                 TextFormField(
                   controller: _passwordController,
-                  obscureText: true,
+                  obscureText: passvisible,
                   decoration: InputDecoration(
                     hintText: 'Enter your password',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(4),
+                    ),
+                     prefixIcon: Icon(Icons.lock),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        passvisible ? Icons.visibility : Icons.visibility_off,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          passvisible = !passvisible;
+                        });
+                      },
                     ),
                   ),
                 ),
@@ -111,12 +137,12 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     );
                   },
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                  style: ElevatedButton.styleFrom(backgroundColor: Color.fromARGB(255, 174, 96, 238)),
                   child: Container(
                     width: double.infinity,
                     child: Text(
                       'create account',
-                      textAlign: TextAlign.center,
+                      textAlign: TextAlign.center,style: TextStyle(color: Colors.white),
                     ),
                   ),
                 ),
@@ -135,7 +161,7 @@ class _LoginPageState extends State<LoginPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => Callpage(),
+                              builder: (context) => HomePage(email: em, password: ps),
                             ),
                           );
                         }
@@ -145,11 +171,11 @@ class _LoginPageState extends State<LoginPage> {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
+                    backgroundColor: Colors.white,
                     padding: EdgeInsets.symmetric(vertical: 16.0),
                     fixedSize: Size(
-                      MediaQuery.of(context).size.width * 2,
-                      1,
+                      MediaQuery.of(context).size.width * 3,
+                      2,
                     ),
                   ),
                   icon: Icon(Icons.login),
@@ -170,3 +196,4 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 }
+

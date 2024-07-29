@@ -40,6 +40,7 @@ dependencies:
   hive_generator: ^2.0.1
   build_runner: ^2.4.11
   url_launcher: ^6.3.0
+  image_picker: ^1.1.2
 
 dev_dependencies:
   flutter_test:
@@ -63,7 +64,21 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   
-
+  assets:
+     - /home/najiya/proj1/images/WhatsApp Image 2024-07-21 at 11.09.20 AM.jpeg
+    
+     - /home/najiya/proj1/images/WhatsApp Image 2024-07-21 at 11.46.09 AM.jpeg
+     - /home/najiya/proj1/images/WhatsApp Image 2024-07-21 at 11.46.07 AM.jpeg
+     - /home/najiya/proj1/images/WhatsApp Image 2024-07-21 at 11.34.21 AM.jpeg
+     - /home/najiya/proj1/images/Festive flat lay frame ingredients f.jpeg
+     - /home/najiya/proj1/images/WhatsApp Image 2024-07-19 at 6.06.55 AM.jpeg
+     - /home/najiya/proj1/images/WhatsApp Image 2024-07-21 at 12.35.06 AM.jpeg
+     - /home/najiya/proj1/images/WhatsApp Image 2024-07-21 at 12.35.07 AM.jpeg
+     - /home/najiya/proj1/images/WhatsApp Image 2024-07-21 at 10.11.27 AM.jpeg
+     - /home/najiya/proj1/images/WhatsApp Image 2024-07-21 at 10.12.27 AM.jpeg
+     - /home/najiya/proj1/images/WhatsApp Image 2024-07-21 at 10.12.54 AM.jpeg
+     - /home/najiya/proj1/images/WhatsApp Image 2024-07-21 at 10.13.49 AM.jpeg
+     - /home/najiya/proj1/images/WhatsApp Image 2024-07-21 at 10.16.12 AM.jpeg
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
