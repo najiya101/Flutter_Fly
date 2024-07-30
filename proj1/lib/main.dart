@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:provider/provider.dart';
+import 'orders_provider.dart';
 //import 'package:proj1/profile.dar';
 //import 'package:proj1/profile.dart';
 import 'register.dart';
@@ -18,9 +20,9 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: LoginPage(),
-    );
+    return ChangeNotifierProvider(create: (context) => OrdersProvider(),
+    child: MaterialApp(home: LoginPage(),),);
+   
   }
 }
 

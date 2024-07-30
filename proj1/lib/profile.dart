@@ -1,7 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
+import 'package:proj1/SettingsPage.dart';
+import 'package:provider/provider.dart';
+import 'orders_provider.dart'; // Assuming this file contains the OrdersProvider class
+// Assuming this file contains the SettingsPage class
 
 class ProfilePage extends StatefulWidget {
   final String email;
@@ -26,9 +31,9 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
     var user = DBbox.get('email');
     if (user != null) {
+      _nameController.text = user[2] ?? ''; // assuming the name is stored in the 3rd index
       _emailController.text = user[0];
       _passwordController.text = user[1];
-   
     }
   }
 
@@ -43,87 +48,95 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void updateProfile(String name, String email, String password) {
-    DBbox.put(email, [email, password]);
+    DBbox.put(email, [email, password, name]); // including name in the list
+  }
+
+  void navigateToOrders() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => OrdersPage()),
+    );
+  }
+
+  void navigateToSettings() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SettingsPage(email: _emailController.text, password: _passwordController.text)),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('Profile'),
-      // ),
+      appBar: AppBar(
+        title: Text('Profile'),
+      ),
       body: Center(
         child: SingleChildScrollView(
           child: Center(
-          child: Container(
-            padding: EdgeInsets.all(16.0),
-            child: Column(
-               //mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-             
-              children: <Widget>[
-                GestureDetector(
-                  onTap: _pickImage,
-                  child: CircleAvatar(
-                    radius: 50,
-                    backgroundImage: _profileImage != null
-                        ? FileImage(_profileImage!)
-                        : AssetImage('/home/najiya/proj1/images/_.jpeg') as ImageProvider,
+            child: Container(
+              padding: EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  GestureDetector(
+                    onTap: _pickImage,
+                    child: CircleAvatar(
+                      radius: 50,
+                      backgroundImage: _profileImage != null
+                          ? FileImage(_profileImage!)
+                          : AssetImage('/home/najiya/proj1/images/_.jpeg') as ImageProvider,
+                    ),
                   ),
-                  
-                ),
+                  SizedBox(height: 16),
+                  Text(
+                    'Update your profile',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 16),
+                  TextField(
+                    controller: _nameController,
+                    decoration: InputDecoration(labelText: 'Name'),
+                  ),
                 
-                SizedBox(height: 16),
-                Text(
-                  'Update your profile',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 16),
-                TextFormField(
-                  controller: _nameController,
-                  decoration: InputDecoration(
-                    hintText: 'Enter your name',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(4)),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 16),
-                TextFormField(
-                  controller: _emailController,
-                  decoration: InputDecoration(
-                    hintText: 'Enter your email',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(4)),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 16.0),
-               
-                ElevatedButton(
-                  onPressed: () {
-                    String name = _nameController.text.trim();
-                    String email = _emailController.text.trim();
-                    String password = _passwordController.text.trim();
-             
-                    updateProfile(name, email, password);
-                   
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 174, 96, 238),
-                    padding: EdgeInsets.symmetric(vertical: 16.0),
-                  ),
-                  child: Container(
-                    width: double.infinity,
+                  SizedBox(height: 10,),
+                  GestureDetector(
+                    onTap: navigateToOrders,
+                    child: Container(
+                      height: 50, // Set the desired height here
+                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Submit',
-                      textAlign: TextAlign.center,style: TextStyle(color: Colors.white),
+                      'My Orders',
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                  ),
+                  SizedBox(height: 10,),
+                  GestureDetector(
+                    onTap: navigateToSettings,
+                    child: Text(
+                      'Settings',
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10,),
+                  ElevatedButton(
+                    onPressed: () {
+                      updateProfile(
+                        _nameController.text,
+                        _emailController.text,
+                        _passwordController.text,
+                      );
+                    },
+                    child: Text('Update Profile'),
+                  ),
+                ],
+              ),
             ),
-          ),
           ),
         ),
       ),
@@ -139,3 +152,28 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 }
 
+class OrdersPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final orders = Provider.of<OrdersProvider>(context).orders;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('My Orders'),
+      ),
+      body: orders.isEmpty
+          ? Center(child: Text('No orders placed yet.'))
+          : ListView.builder(
+              itemCount: orders.length,
+              itemBuilder: (context, index) {
+                final item = orders[index];
+                return ListTile(
+                  leading: Image.asset(item['image']!),
+                  title: Text(item['name']!),
+                  subtitle: Text(item['price']!),
+                );
+              },
+            ),
+    );
+  }
+}

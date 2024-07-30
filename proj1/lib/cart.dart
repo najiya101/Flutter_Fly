@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'orders_provider.dart'; // Assuming this file contains the OrdersProvider class
 
 class CartPage extends StatefulWidget {
   final List<Map<String, String>> cartItems;
@@ -33,6 +35,7 @@ class _CartPageState extends State<CartPage> {
   }
 
   void _placeOrder() {
+    Provider.of<OrdersProvider>(context, listen: false).addOrder(_cartItems);
     setState(() {
       _cartItems.clear();
       _totalAmount = 0.0;
