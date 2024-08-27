@@ -19,9 +19,7 @@ class _FavoritePageState extends State<FavoritePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Favorite Products'),
-      ),
+     
       body: widget.favoriteProducts.isEmpty
           ? Center(child: Text('No favorite products added yet.'))
           : ListView.builder(

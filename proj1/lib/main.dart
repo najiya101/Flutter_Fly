@@ -9,9 +9,11 @@ import 'orders_provider.dart';
 //import 'package:proj1/profile.dart';
 import 'register.dart';
 import 'homepage.dart';
+import 'splash_screen.dart';
 
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   await Hive.openBox('DBbox');
   runApp(MyApp());
@@ -21,7 +23,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(create: (context) => OrdersProvider(),
-    child: MaterialApp(home: LoginPage(),),);
+    child: MaterialApp(home: SplashScreen(),),);
    
   }
 }
@@ -107,16 +109,9 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: 16.0),
                 Row(
                   children: <Widget>[
-                    Checkbox(
-                      value: isChecked,
-                      onChanged: (newBool) {
-                        setState(() {
-                          isChecked = newBool;
-                        });
-                      },
-                    ),
-                    Text('Remember me'),
-                    Spacer(),
+                   
+                 
+                   
                     TextButton(
                       onPressed: () {
                         // Forgot password logic

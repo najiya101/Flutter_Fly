@@ -75,16 +75,13 @@ class _ProductDetailsState extends State<ProductDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.name),
+        
         actions: [
           IconButton(
             icon: Icon(isFavorite ? Icons.favorite : Icons.favorite_border),
             onPressed: _toggleFavorite,
           ),
-          IconButton(
-            icon: Icon(Icons.list),
-            onPressed: _navigateToFavorites,
-          ),
+       
         ],
       ),
       body: SingleChildScrollView(
